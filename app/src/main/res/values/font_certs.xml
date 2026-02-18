@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="com_google_android_gms_fonts_certs">
+        <item>@array/com_google_android_gms_fonts_certs_dev</item>
+        <item>@array/com_google_android_gms_fonts_certs_prod</item>
+    </array>
+    <string-array name="com_google_android_gms_fonts_certs_dev">
+        <item>
+            MIIEqDCCA5CgAwIBAgIJANWK9s9er9nOMA0GCSqGSIb3DQEBBQUAMIGUMQswCQYDVQQGEwJVUzETMBEG
+            A1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHR29vZ2xlMRQw
+            EgYDVQQLEwtBbmRyb2lkIERldjEUMBIGA1UEAxMLQW5kcm9pZCBEZXYxGzAZBgkqhkiG9w0BCQEWDGFu
+            ZHJvaWRAZGV2MB4XDTE0MDgxNDIyMjI1N1oXDTQyMDExMzIyMjI1N1owgZQxCzAJBgNVBAYTAlVTMRMw
+            EQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRAwDgYDVQQKEwdHb29nbGUx
+            FDASBgNVBAsTC0FuZHJvaWQgRGV2MRQwEgYDVQQDEwtBbmRyb2lkIERldjEbMBkGCSqGSIb3DQEJARYM
+            YW5kcm9pZEBkZXYwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDRC6S/vIDp99Nm9izOnovZ
+            CSasIdSndG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInAgMBAAGjgecwgeQwHQYDVR0OBBYEFEPSvEDp99Nm9izOnovZCSasIdSnMIGOBgNVHSMEgYYwgYSA
+            FEPSvEDp99Nm9izOnovZCSasIdSnoYGUpIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5p
+            YTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHR29vZ2xlMRQwEgYDVQQLEwtBbmRyb2lk
+            IERldjEUMBIGA1UEAxMLQW5kcm9pZCBEZXYxGzAZBgkqhkiG9w0BCQEWDGFuZHJvaWRAZGV2ggkA1Yr2
+            z16v2c4wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAQEALxw/9Nm9izOnovZCSasIdSndG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XIn
+        </item>
+    </string-array>
+    <string-array name="com_google_android_gms_fonts_certs_prod">
+        <item>
+            MIIEqDCCA5CgAwIBAgIJANWK9s9er9nOMA0GCSqGSIb3DQEBBQUAMIGUMQswCQYDVQQGEwJVUzETMBEG
+            A1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHR29vZ2xlMRQw
+            EgYDVQQLEwtBbmRyb2lkIERldjEUMBIGA1UEAxMLQW5kcm9pZCBEZXYxGzAZBgkqhkiG9w0BCQEWDGFu
+            ZHJvaWRAZGV2MB4XDTE0MDgxNDIyMjI1N1oXDTQyMDExMzIyMjI1N1owgZQxCzAJBgNVBAYTAlVTMRMw
+            EQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRAwDgYDVQQKEwdHb29nbGUx
+            FDASBgNVBAsTC0FuZHJvaWQgRGV2MRQwEgYDVQQDEwtBbmRyb2lkIERldjEbMBkGCSqGSIb3DQEJARYM
+            YW5kcm9pZEBkZXYwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDRC6S/vIDp99Nm9izOnovZ
+            CSasIdSndG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy
+            9XInAgMBAAGjgecwgeQwHQYDVR0OBBYEFEPSvEDp99Nm9izOnovZCSasIdSnMIGOBgNVHSMEgYYwgYSA
+            FEPSvEDp99Nm9izOnovZCSasIdSnoYGUpIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5p
+            YTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHR29vZ2xlMRQwEgYDVQQLEwtBbmRyb2lk
+            IERldjEUMBIGA1UEAxMLQW5kcm9pZCBEZXYxGzAZBgkqhkiG9w0BCQEWDGFuZHJvaWRAZGV2ggkA1Yr2
+            z16v2c4wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAQEALxw/9Nm9izOnovZCSasIdSndG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1Tsy9XInSOnidG9W1
+            Tsy9XIn
+        </item>
+    </string-array>
+</resources>
