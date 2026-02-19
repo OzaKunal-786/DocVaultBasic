@@ -64,6 +64,10 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+	
+	// OPENCV - NEW LINE ADDED:
+	implementation("com.quickbirdstudios:opencv:4.5.3.0")
+
 
     // Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
