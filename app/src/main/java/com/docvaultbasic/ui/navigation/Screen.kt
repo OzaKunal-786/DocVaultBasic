@@ -9,6 +9,7 @@ sealed class Screen(val route: String) {
     object FolderSelection : Screen("folder_selection")
     object Settings : Screen("settings")
     object DocumentScanner : Screen("document_scanner")
+    object AllFiles : Screen("all_files") // Added AllFiles screen
     object ImportConfirmation : Screen("import_confirmation/{fileUri}") {
         fun createRoute(fileUri: String) = "import_confirmation/${java.net.URLEncoder.encode(fileUri, "UTF-8")}"
     }

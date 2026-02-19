@@ -40,11 +40,11 @@ fun PermissionHandler(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     
-    // Mandatory basic permissions (Camera is included here for simplicity of first-run setup)
+    // Updated: Removed CAMERA permission
     val mandatoryPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        listOf(Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES)
+        listOf(Manifest.permission.READ_MEDIA_IMAGES)
     } else {
-        listOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+        listOf(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
     val permissionState = rememberMultiplePermissionsState(permissions = mandatoryPermissions)
@@ -63,14 +63,14 @@ fun PermissionHandler(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    // 1. First, request standard runtime permissions (Camera, Media)
+    // Request standard runtime permissions (Media only now)
     LaunchedEffect(Unit) {
         if (!permissionState.allPermissionsGranted) {
             permissionState.launchMultiplePermissionRequest()
         }
     }
 
-    // 2. Second, if standard are granted, ask for "All Files Access" for deep scanning
+    // Ask for "All Files Access" for deep scanning if needed
     if (permissionState.allPermissionsGranted && showStorageDialog && !hasManageStorage) {
         AlertDialog(
             onDismissRequest = { showStorageDialog = false },
@@ -109,7 +109,7 @@ fun checkAllFilesAccess(): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         Environment.isExternalStorageManager()
     } else {
-        true // Handled by standard permissions on older Android
+        true 
     }
 }
 
@@ -130,9 +130,9 @@ fun requestAllFilesAccess(context: Context) {
 
 fun checkBasicPermissions(context: Context): Boolean {
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        listOf(Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES)
+        listOf(Manifest.permission.READ_MEDIA_IMAGES)
     } else {
-        listOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+        listOf(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
     return permissions.all { context.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
 }

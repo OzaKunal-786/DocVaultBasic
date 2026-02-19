@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import net.sqlcipher.database.SupportFactory
 
-@Database(entities = [DocumentEntity::class, FolderEntity::class], version = 1)
+@Database(entities = [DocumentEntity::class, FolderEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun documentDao(): DocumentDao
     abstract fun folderDao(): FolderDao

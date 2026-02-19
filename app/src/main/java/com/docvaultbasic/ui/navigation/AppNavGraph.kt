@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.docvaultbasic.ui.screens.DocumentScannerScreen
+import com.docvaultbasic.ui.screens.AllFilesScreen
 import com.docvaultbasic.ui.screens.FolderSelectionScreen
 import com.docvaultbasic.ui.screens.HomeScreen
 import com.docvaultbasic.ui.screens.ImageEditorScreen
@@ -43,7 +43,7 @@ fun AppNavGraph(
         composable(Screen.Search.route) { SearchScreen(navController) }
         composable(Screen.FolderSelection.route) { FolderSelectionScreen(navController) }
         composable(Screen.Settings.route) { SettingsScreen(navController) }
-        composable(Screen.DocumentScanner.route) { DocumentScannerScreen(navController) }
+        composable(Screen.AllFiles.route) { AllFilesScreen(navController) }
         composable(
             route = Screen.ImportConfirmation.route,
             arguments = listOf(navArgument("fileUri") { type = androidx.navigation.NavType.StringType })
@@ -62,7 +62,10 @@ fun AppNavGraph(
                 ImageEditorScreen(uri, navController)
             }
         }
-        composable(Screen.PdfViewer.route) { backStackEntry ->
+        composable(
+            route = Screen.PdfViewer.route,
+            arguments = listOf(navArgument("documentId") { type = androidx.navigation.NavType.StringType })
+        ) { backStackEntry ->
             val documentId = backStackEntry.arguments?.getString("documentId")?.toIntOrNull()
             if (documentId != null) {
                 PdfViewerScreen(documentId, navController)
