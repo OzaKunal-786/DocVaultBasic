@@ -20,6 +20,7 @@ data class SettingsUiState(
     val isBiometricEnabled: Boolean = false,
     val cacheSize: Long = 0,
     val backupSuccess: Boolean? = null,
+    val restoreSuccess: Boolean? = null,
     val errorMessage: String? = null
 )
 
@@ -74,10 +75,17 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun resetStatus() {
-        _uiState.update { it.copy(backupSuccess = null, errorMessage = null) }
+        _uiState.update { it.copy(backupSuccess = null, restoreSuccess = null, errorMessage = null) }
     }
     
     fun restoreVault(uri: Uri) {
-        // TODO: Implement restore logic in BackupManager
+        viewModelScope.launch {
+            try {
+                val success = backupManager.restoreBackup(uri)
+                _uiState.update { it.copy(restoreSuccess = success, errorMessage = if (success) null else "Restore failed") }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(restoreSuccess = false, errorMessage = e.message) }
+            }
+        }
     }
 }

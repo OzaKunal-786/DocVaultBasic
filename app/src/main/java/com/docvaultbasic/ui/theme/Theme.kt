@@ -12,51 +12,49 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-// Tonal Palette Seed: #005FB7 (Safe Blue for vault feeling)
+// Indigo Tonal Palette Seed: #3F51B5
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF005FB7),
+    primary = Color(0xFF3F51B5), // Indigo
     onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFD6E2FF),
-    onPrimaryContainer = Color(0xFF001B3E),
-    secondary = Color(0xFF565E71),
+    primaryContainer = Color(0xFFDEE0FF),
+    onPrimaryContainer = Color(0xFF00105C),
+    secondary = Color(0xFF5B5D72),
     onSecondary = Color(0xFFFFFFFF),
-    secondaryContainer = Color(0xFFDBE2F9),
-    onSecondaryContainer = Color(0xFF131C2B),
-    tertiary = Color(0xFF705575),
+    secondaryContainer = Color(0xFFE0E1F9),
+    onSecondaryContainer = Color(0xFF181A2C),
+    tertiary = Color(0xFF77536D),
     onTertiary = Color(0xFFFFFFFF),
-    tertiaryContainer = Color(0xFFFBD7FF),
-    onTertiaryContainer = Color(0xFF29132F),
-    background = Color(0xFFFDFBFF),
-    onBackground = Color(0xFF1A1B1F),
-    surface = Color(0xFFFDFBFF),
-    onSurface = Color(0xFF1A1B1F),
-    surfaceVariant = Color(0xFFE0E2EC),
-    onSurfaceVariant = Color(0xFF44474E),
-    outline = Color(0xFF74777F),
-    surfaceContainer = Color(0xFFF0F0F7) // M3 Container color
+    tertiaryContainer = Color(0xFFFFD7F1),
+    onTertiaryContainer = Color(0xFF2D1228),
+    background = Color(0xFFFEFBFF),
+    onBackground = Color(0xFF1B1B1F),
+    surface = Color(0xFFFEFBFF),
+    onSurface = Color(0xFF1B1B1F),
+    surfaceVariant = Color(0xFFE3E1EC),
+    onSurfaceVariant = Color(0xFF46464F),
+    outline = Color(0xFF767680)
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFFA9C7FF),
-    onPrimary = Color(0xFF003062),
-    primaryContainer = Color(0xFF00478A),
-    onPrimaryContainer = Color(0xFFD6E2FF),
-    secondary = Color(0xFFBEC6DC),
-    onSecondary = Color(0xFF283041),
-    secondaryContainer = Color(0xFF3E4759),
-    onSecondaryContainer = Color(0xFFDBE2F9),
-    tertiary = Color(0xFFDDBCE0),
-    onTertiary = Color(0xFF3F2844),
-    tertiaryContainer = Color(0xFF573E5C),
-    onTertiaryContainer = Color(0xFFFBD7FF),
-    background = Color(0xFF1A1B1F),
-    onBackground = Color(0xFFE3E2E6),
-    surface = Color(0xFF1A1B1F),
-    onSurface = Color(0xFFE3E2E6),
-    surfaceVariant = Color(0xFF44474E),
-    onSurfaceVariant = Color(0xFFC4C6D0),
-    outline = Color(0xFF8E9099),
-    surfaceContainer = Color(0xFF252529)
+    primary = Color(0xFFBAC3FF),
+    onPrimary = Color(0xFF00218D),
+    primaryContainer = Color(0xFF24399C),
+    onPrimaryContainer = Color(0xFFDEE0FF),
+    secondary = Color(0xFFC3C5DD),
+    onSecondary = Color(0xFF2D2F42),
+    secondaryContainer = Color(0xFF434659),
+    onSecondaryContainer = Color(0xFFE0E1F9),
+    tertiary = Color(0xFFE6BAD7),
+    onTertiary = Color(0xFF45263E),
+    tertiaryContainer = Color(0xFF5D3C55),
+    onTertiaryContainer = Color(0xFFFFD7F1),
+    background = Color(0xFF1B1B1F),
+    onBackground = Color(0xFFE4E1E6),
+    surface = Color(0xFF1B1B1F),
+    onSurface = Color(0xFFE4E1E6),
+    surfaceVariant = Color(0xFF46464F),
+    onSurfaceVariant = Color(0xFFC7C5D0),
+    outline = Color(0xFF90909A)
 )
 
 @Composable

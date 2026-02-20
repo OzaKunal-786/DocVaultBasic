@@ -1,11 +1,14 @@
 package com.docvaultbasic.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,9 +30,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.EnhancedEncryption
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Scanner
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -39,8 +41,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.docvaultbasic.ui.navigation.Screen
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 data class OnboardingPage(
@@ -74,39 +81,46 @@ data class Feature(
 fun OnboardingScreen(navController: NavController) {
     val pages = listOf(
         OnboardingPage(
-            title = "Welcome to the new",
+            title = "Welcome to",
             subtitle = "DocVault",
-            description = "The ultimate secure fortress for your documents. Professional management with industry-leading privacy.",
-            icon = Icons.Default.Description
+            description = "Your personal secure document scanner and vault. Professional scanning in your pocket.",
+            icon = Icons.Default.Scanner
         ),
         OnboardingPage(
-            title = "Military Grade",
-            subtitle = "Security",
-            description = "Your documents are now protected by hardware-backed AES-256 encryption.",
-            icon = Icons.Default.EnhancedEncryption,
+            title = "Powerful",
+            subtitle = "Features",
+            description = "Everything you need for professional document management.",
+            icon = Icons.Default.Check,
             features = listOf(
-                Feature("Full File Encryption", Icons.Default.Lock),
-                Feature("Hardware Key Storage", Icons.Default.Security),
-                Feature("Screenshot Protection", Icons.Default.Check),
-                Feature("Zero Cloud Uploads", Icons.Default.Check)
+                Feature("Smart edge detection", Icons.Default.Scanner),
+                Feature("Professional filters", Icons.Default.Check),
+                Feature("Advanced editing tools", Icons.Default.Check),
+                Feature("Instant search", Icons.Default.Check)
             )
         ),
         OnboardingPage(
-            title = "Organized &",
-            subtitle = "Intuitive",
-            description = "A clean, minimalistic experience designed for maximum efficiency.",
-            icon = Icons.Default.Description,
+            title = "Privacy",
+            subtitle = "First",
+            description = "Your documents never leave your device. Complete privacy guaranteed.",
+            icon = Icons.Default.Lock,
             features = listOf(
-                Feature("Deep Scan Folders", Icons.Default.Description),
-                Feature("Advanced Image Editor", Icons.Default.Check),
-                Feature("High-Resolution Viewer", Icons.Default.Check),
-                Feature("Smart Duplicate Detection", Icons.Default.Check)
+                Feature("100% offline", Icons.Default.Security),
+                Feature("Zero data collection", Icons.Default.Security),
+                Feature("Encrypted storage", Icons.Default.Lock),
+                Feature("You're in control", Icons.Default.Check)
             )
         )
     )
 
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val scope = rememberCoroutineScope()
+    
+    var isVisible by remember { mutableStateOf(false) }
+    
+    LaunchedEffect(Unit) {
+        delay(100)
+        isVisible = true
+    }
 
     Box(
         modifier = Modifier
@@ -121,19 +135,29 @@ fun OnboardingScreen(navController: NavController) {
             )
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
+            // Pager
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                contentPadding = PaddingValues(horizontal = 32.dp)
             ) { page ->
-                OnboardingPageContent(pages[page], page)
+                AnimatedVisibility(
+                    visible = isVisible,
+                    enter = fadeIn(tween(600)),
+                    exit = fadeOut()
+                ) {
+                    OnboardingPageContent(pages[page], page)
+                }
             }
 
+            // Indicators & Navigation
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 32.dp),
+                    .padding(bottom = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // Page indicators
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.padding(bottom = 32.dp)
@@ -146,67 +170,66 @@ fun OnboardingScreen(navController: NavController) {
                     }
                 }
 
-                Box(
+                // Navigation buttons
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 32.dp),
-                    contentAlignment = Alignment.Center
+                    horizontalArrangement = if (pagerState.currentPage < pages.size - 1) 
+                        Arrangement.SpaceBetween else Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (pagerState.currentPage < pages.size - 1) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                        TextButton(
+                            onClick = { navController.navigate(Screen.PinSetup.route) }
                         ) {
-                            TextButton(
-                                onClick = { navController.navigate(Screen.PinSetup.route) },
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text(
-                                    "Skip",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-
-                            Button(
-                                onClick = {
-                                    scope.launch {
-                                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                                    }
-                                },
-                                shape = RoundedCornerShape(16.dp),
-                                modifier = Modifier
-                                    .height(56.dp)
-                                    .weight(1f),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                ),
-                                contentPadding = PaddingValues(horizontal = 24.dp)
-                            ) {
-                                // FIXED: Removed arrow icon
-                                Text("Next", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
-                            }
-                            
-                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                "Skip",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
-                    } else {
-                        Button(
-                            onClick = {
+                    }
+
+                    Button(
+                        onClick = {
+                            if (pagerState.currentPage < pages.size - 1) {
+                                scope.launch {
+                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                }
+                            } else {
                                 navController.navigate(Screen.PinSetup.route) {
                                     popUpTo(Screen.Onboarding.route) { inclusive = true }
                                 }
-                            },
-                            shape = RoundedCornerShape(16.dp),
-                            modifier = Modifier
-                                .fillMaxWidth(0.85f)
-                                .height(56.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary
+                            }
+                        },
+                        shape = RoundedCornerShape(16.dp),
+                        modifier = Modifier
+                            .height(56.dp)
+                            .then(
+                                if (pagerState.currentPage == pages.size - 1)
+                                    Modifier.fillMaxWidth(0.8f)
+                                else Modifier
+                            ),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        ),
+                        contentPadding = PaddingValues(horizontal = 32.dp)
+                    ) {
+                        Text(
+                            if (pagerState.currentPage < pages.size - 1) "Next" else "Get Started",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        
+                        if (pagerState.currentPage < pages.size - 1) {
+                            Spacer(Modifier.width(8.dp))
+                            Icon(
+                                Icons.Default.ArrowForward,
+                                null,
+                                modifier = Modifier.size(18.dp)
                             )
-                        ) {
-                            Text("Protect My Documents", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
                         }
                     }
                 }
@@ -217,6 +240,7 @@ fun OnboardingScreen(navController: NavController) {
 
 @Composable
 private fun OnboardingPageContent(page: OnboardingPage, pageIndex: Int) {
+    // Pulse animation for icon
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -231,10 +255,11 @@ private fun OnboardingPageContent(page: OnboardingPage, pageIndex: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp, vertical = 32.dp),
+            .padding(vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        // Animated Icon
         Surface(
             shape = CircleShape,
             color = MaterialTheme.colorScheme.primaryContainer,
@@ -257,6 +282,7 @@ private fun OnboardingPageContent(page: OnboardingPage, pageIndex: Int) {
 
         Spacer(modifier = Modifier.height(48.dp))
 
+        // Title
         Text(
             text = page.title,
             style = MaterialTheme.typography.titleMedium,
@@ -268,6 +294,7 @@ private fun OnboardingPageContent(page: OnboardingPage, pageIndex: Int) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
+        // Subtitle
         Text(
             text = page.subtitle,
             style = MaterialTheme.typography.headlineLarge,
@@ -279,6 +306,7 @@ private fun OnboardingPageContent(page: OnboardingPage, pageIndex: Int) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Description
         Text(
             text = page.description,
             style = MaterialTheme.typography.bodyLarge,
@@ -289,6 +317,7 @@ private fun OnboardingPageContent(page: OnboardingPage, pageIndex: Int) {
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
+        // Features list
         if (page.features.isNotEmpty()) {
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -320,7 +349,7 @@ private fun FeatureItem(feature: Feature) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 Icon(
-                    feature.icon,
+                    Icons.Default.Check,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp),
                     tint = MaterialTheme.colorScheme.onSecondaryContainer

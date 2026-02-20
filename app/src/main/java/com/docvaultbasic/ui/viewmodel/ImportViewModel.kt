@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.docvaultbasic.data.database.DocumentEntity
 import com.docvaultbasic.data.repository.DocumentRepository
+import com.docvaultbasic.util.EncryptionManager
 import com.docvaultbasic.util.FileHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ImportViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val documentRepository: DocumentRepository
+    private val documentRepository: DocumentRepository,
+    private val encryptionManager: EncryptionManager
 ) : ViewModel() {
 
     fun saveDocumentDirectly(uri: Uri, name: String) {
@@ -50,11 +52,16 @@ class ImportViewModel @Inject constructor(
                         page.canvas.drawBitmap(compressedBitmap, 0f, 0f, null)
                         pdfDocument.finishPage(page)
 
-                        // Clean filename without extra numbers
+                        // Clean filename
                         val finalName = if (name.endsWith(".pdf", true)) name else "$name.pdf"
                         val file = File(vaultDir, finalName)
                         
-                        FileOutputStream(file).use { pdfDocument.writeTo(it) }
+                        // SAVE ENCRYPTED
+                        FileOutputStream(file).use { fos ->
+                            encryptionManager.encryptStream(fos).use { encryptedStream ->
+                                pdfDocument.writeTo(encryptedStream)
+                            }
+                        }
                         pdfDocument.close()
 
                         val docEntity = DocumentEntity(
@@ -65,7 +72,7 @@ class ImportViewModel @Inject constructor(
                             dateAdded = System.currentTimeMillis(),
                             dateModified = System.currentTimeMillis(),
                             folderSource = "Imported",
-                            isEncrypted = false,
+                            isEncrypted = true, // MARK AS ENCRYPTED
                             checksum = calculateFileChecksum(file),
                             thumbnailPath = null
                         )

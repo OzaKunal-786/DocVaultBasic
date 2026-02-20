@@ -31,32 +31,40 @@ class FolderViewModel @Inject constructor(
     }
 
     private suspend fun addDefaultFolders() {
+        val paths = mutableSetOf<String>()
         val defaultFolders = mutableListOf<FolderEntity>()
+
+        fun addIfUnique(file: File, name: String) {
+            val path = file.absolutePath
+            // Ensure path is unique and normalize it
+            val normalizedPath = path.trimEnd('/')
+            if (file.exists() && paths.add(normalizedPath)) {
+                defaultFolders.add(FolderEntity(folderPath = normalizedPath, folderName = name))
+            }
+        }
 
         // Downloads
         val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        if (downloads.exists()) {
-            defaultFolders.add(FolderEntity(folderPath = downloads.absolutePath, folderName = "Downloads"))
-        }
+        addIfUnique(downloads, "Downloads")
 
         // WhatsApp Documents (Common path)
         val whatsappDocs = File(Environment.getExternalStorageDirectory(), "Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Documents")
-        if (whatsappDocs.exists()) {
-            defaultFolders.add(FolderEntity(folderPath = whatsappDocs.absolutePath, folderName = "WhatsApp Documents"))
-        }
+        addIfUnique(whatsappDocs, "WhatsApp Documents")
 
         // Documents
         val docs = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-        if (docs.exists()) {
-            defaultFolders.add(FolderEntity(folderPath = docs.absolutePath, folderName = "Documents"))
-        }
+        addIfUnique(docs, "Documents")
 
         defaultFolders.forEach { folderRepository.insertFolder(it) }
     }
 
     fun addFolder(path: String, name: String) {
         viewModelScope.launch {
-            folderRepository.insertFolder(FolderEntity(folderPath = path, folderName = name))
+            val existing = folderRepository.allFolders.first()
+            val normalizedPath = path.trimEnd('/')
+            if (existing.none { it.folderPath.trimEnd('/') == normalizedPath }) {
+                folderRepository.insertFolder(FolderEntity(folderPath = normalizedPath, folderName = name))
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.docvaultbasic.ui.screens.AllFilesScreen
+import com.docvaultbasic.ui.screens.FaqScreen
 import com.docvaultbasic.ui.screens.FolderSelectionScreen
 import com.docvaultbasic.ui.screens.HomeScreen
 import com.docvaultbasic.ui.screens.ImageEditorScreen
@@ -44,6 +45,7 @@ fun AppNavGraph(
         composable(Screen.FolderSelection.route) { FolderSelectionScreen(navController) }
         composable(Screen.Settings.route) { SettingsScreen(navController) }
         composable(Screen.AllFiles.route) { AllFilesScreen(navController) }
+        composable(Screen.Faq.route) { FaqScreen(navController) }
         composable(
             route = Screen.ImportConfirmation.route,
             arguments = listOf(navArgument("fileUri") { type = androidx.navigation.NavType.StringType })

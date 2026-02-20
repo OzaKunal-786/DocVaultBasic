@@ -16,6 +16,7 @@
     <application
         android:name=".DocVaultApp"
         android:allowBackup="false"
+        android:icon="@drawable/ic_vault_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.DocVaultBasic"

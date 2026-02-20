@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CreateNewFolder
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Search
@@ -51,8 +52,7 @@ import com.docvaultbasic.util.PermissionHandler
 
 sealed class BottomNavItem(val route: String, val label: String, val icon: ImageVector) {
     object Home : BottomNavItem(Screen.Home.route, "Vault", Icons.Default.Home)
-    object Search : BottomNavItem(Screen.Search.route, "Search", Icons.Default.Search)
-    object Settings : BottomNavItem(Screen.Settings.route, "Settings", Icons.Default.Settings)
+    object AllFiles : BottomNavItem(Screen.AllFiles.route, "All Files", Icons.Default.Description)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,8 +68,7 @@ fun MainScreen() {
 
     val items = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Search,
-        BottomNavItem.Settings
+        BottomNavItem.AllFiles
     )
 
     val showBottomBar = currentDestination?.route in items.map { it.route }

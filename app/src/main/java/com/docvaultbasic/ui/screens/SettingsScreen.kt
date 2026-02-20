@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.DeleteSweep
@@ -75,15 +76,27 @@ fun SettingsScreen(
         }
     )
 
-    LaunchedEffect(uiState.backupSuccess, uiState.errorMessage) {
+    val restoreLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            uri?.let { viewModel.restoreVault(it) }
+        }
+    )
+
+    LaunchedEffect(uiState.backupSuccess, uiState.restoreSuccess, uiState.errorMessage) {
         if (uiState.backupSuccess == true) {
             scope.launch {
                 snackbarHostState.showSnackbar("Backup created successfully!")
                 viewModel.resetStatus()
             }
+        } else if (uiState.restoreSuccess == true) {
+            scope.launch {
+                snackbarHostState.showSnackbar("Vault restored successfully!")
+                viewModel.resetStatus()
+            }
         } else if (uiState.errorMessage != null) {
             scope.launch {
-                snackbarHostState.showSnackbar("Backup failed: ${uiState.errorMessage}")
+                snackbarHostState.showSnackbar("Error: ${uiState.errorMessage}")
                 viewModel.resetStatus()
             }
         }
@@ -157,7 +170,15 @@ fun SettingsScreen(
             }
             HorizontalDivider()
             SettingClickableItem(title = "Restore Vault", icon = Icons.Default.Restore) {
-                // TODO: Restore Logic
+                restoreLauncher.launch("*/*")
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Help Section
+            Text("Help", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 8.dp))
+            SettingClickableItem(title = "Help & FAQ", icon = Icons.AutoMirrored.Filled.HelpOutline) {
+                navController.navigate(Screen.Faq.route)
             }
             
             Spacer(modifier = Modifier.height(32.dp))

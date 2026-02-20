@@ -2,8 +2,10 @@ package com.docvaultbasic.ui.screens
 
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,10 +27,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,6 +54,7 @@ fun FolderSelectionScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val folders by folderViewModel.allFolders.collectAsState(initial = emptyList())
+    val homeUiState by homeViewModel.uiState.collectAsState()
     val context = LocalContext.current
 
     val folderPickerLauncher = rememberLauncherForActivityResult(
@@ -65,12 +70,30 @@ fun FolderSelectionScreen(
         }
     )
 
+    // Acknowledge scan completion
+    LaunchedEffect(homeUiState.isLoading) {
+        if (!homeUiState.isLoading && homeUiState.totalDocuments > 0) {
+            // Toast.makeText(context, "Scanning completed!", Toast.LENGTH_SHORT).show()
+            // navController.navigate(Screen.Home.route) // Optionally auto-navigate
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Progress indicator at the top
+        AnimatedVisibility(visible = homeUiState.isLoading) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                Spacer(Modifier.height(8.dp))
+                Text("Scanning folders...", style = MaterialTheme.typography.labelSmall)
+                Spacer(Modifier.height(16.dp))
+            }
+        }
+
         Text(
             text = "Managed Folders",
             style = MaterialTheme.typography.headlineMedium,
@@ -97,10 +120,10 @@ fun FolderSelectionScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Moved "Add Custom Folder" below the list as requested
         OutlinedButton(
             onClick = { folderPickerLauncher.launch(null) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !homeUiState.isLoading
         ) {
             Icon(Icons.Default.Add, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
@@ -112,11 +135,13 @@ fun FolderSelectionScreen(
         Button(
             onClick = { 
                 homeViewModel.startScan()
+                // Wait for scan to start, then navigate or show progress
                 navController.navigate(Screen.Home.route)
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !homeUiState.isLoading
         ) {
-            Text("Start Scanning & Continue")
+            Text(if (homeUiState.isLoading) "Scanning..." else "Scan")
         }
     }
 }
